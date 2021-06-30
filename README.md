@@ -92,6 +92,42 @@ export default {
   }
 }
 ```
+If you have included THEOplayer into your project using NPM, you also have to do the following:
+* Copy the worker files (theoplayer.d.js and others) from the node_modules into static/theoplayer.
+* Next change the values of the css and script in the nuxt.config.js to:
+```js
+export default {
+  css: [ 
+    '~/node_modules/theoplayer/ui.css' //for chromefull theoplayer
+  ],
+  script: [
+    {
+      type: 'text/javascript',
+      src: 'theoplayer/js/theoplayer.e.js',
+      body: true
+    },
+    {
+      type: 'text/javascript',
+      src: 'theoplayer/js/theoplayer.p.js',
+      body: true
+    },
+    {
+      type: 'text/javascript',
+      src: 'theoplayer/js/theoplayer.d.js',
+      body: true
+    },
+  ],
+}
+``` 
+* Finally configure your library location to target the static/theoplayer folder. (See step 6 for a full example)
+
+```js
+const player = new window.THEOplayer.Player(this.$refs.theoplayer, {
+        fluid: true,
+        libraryLocation: 'theoplayer',
+        license: 'YOUR_LICENSE'
+      })
+```
 
 6. Add the new component named Player.vue under this path: components/Player.vue
 
@@ -116,7 +152,8 @@ export default {
     playerInit() {
       const player = new window.THEOplayer.Player(this.$refs.theoplayer, {
         fluid: true,
-        libraryLocation: '//cdn.theoplayer.com/dash/theoplayer/'
+        libraryLocation: '//cdn.theoplayer.com/dash/theoplayer/',
+        license: 'YOUR_LICENSE'
       })
       player.source = {
         sources: this.source
